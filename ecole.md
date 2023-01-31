@@ -256,3 +256,63 @@ collation => information / regle de comparaison
     // verifie que l'age existe
     db.uneCollection.find({ "nom": "age" * 11 })
 ```
+
+# Index
+
+permet d'etre plus performant sur des gros volumes avec des requetes tres utilisé.
+
+Lit seulement les documents indexé au lieu de tout
+
+## creation index
+
+``` JS
+    db.uneCollection.createIndex({ "cle": "valeur" })
+```
+
+## lister les indexs
+
+``` JS
+    db.uneCollection.getIndexes()
+```
+
+## appeler un index
+
+faire la requete normalement se qui va appeler l'index
+
+## stats de la requete
+
+pour avoir les stats de documents consulter par mongo ajouter a la fin de la requete `.explain("executionStats")` pour voir 
+
+- `nbReturned` => nb document retourné
+- `docsExamined` => nb de documents examiné par mongo avant de retourner un resultat
+
+# Validation
+
+mettre des champs required ou valeur predefini ou type
+
+``` JS
+    db.runCommand({
+        collMod: "nom collection",
+        validator: 
+        { 
+            $jsonSchema: 
+            {
+                bsonType: "object",
+                required: [ "champ 1", "champ 2" ],
+            
+                properties: 
+                {
+                    phone: {
+                        bsonType: "string",
+                        description: "phone must be a string and is required"
+                    },
+                    name: {
+                        bsonType: "string",
+                        description: "name must be a string and is required"
+                    }
+                }
+            } 
+        },
+   validationLevel: "strict"
+})
+```
