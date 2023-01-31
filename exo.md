@@ -276,6 +276,18 @@ Pour les salles dont le nom commence par une voyelle (peu importe la casse, là 
 
 En mode upsert, vous mettrez à jour tous les documents dont le nom commence par un z ou un Z en leur affectant comme nom « Pub Z », comme valeur du champ capacite 50 personnes (type entier et non décimal) et en positionnant le champ booléen smac à la valeur « false ».
 
+``` JS
+    // find() => condition pour recuperer l'object
+    // update() => les valeurs a modifier
+    // bulk => init une liste d'inscruction a executer
+    var bulk = db.salles.initializeUnorderedBulkOp();
+    bulk.find({ "nom": { $regex: /^[zZ]/ }}).upsert().update({ 
+        "nom": "Pub Z", 
+        "capacite": NumberInt(50),
+        "smac": false
+        })
+```
+
 # Exercice 21
 
 Affichez le décompte des documents pour lesquels le champ _id est de type « objectId ».
