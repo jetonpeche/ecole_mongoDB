@@ -258,15 +258,25 @@ Pour les salles dont le nom commence par la lettre P (majuscule ou minuscule), a
     })
 ```
 
-Exercice 19
+# Exercice 19
 
 Pour les salles dont le nom commence par une voyelle (peu importe la casse, là aussi), rajoutez dans le tableau avis un document composé du champ date valant la date courante et du champ note valant 10 (double ou entier). L’expression régulière pour chercher une chaîne de caractères débutant par une voyelle suivie de n’importe quoi d’autre est [^aeiou]+$.
 
-Exercice 20
+``` JS
+    // regex => voyelle sur la 1ere lettre
+    // new Date() => date du jour
+    // NumberInt() => cast le chiffre en int
+    db.salles.updateMany({ "nom": { $regex: /^[aeiouyAEIOUY]/ }, "avis": { $exists: true }}, 
+    { 
+        $push: { "avis": { "date": new Date(), "note": NumberInt(10) }}
+    })
+```
+
+# Exercice 20
 
 En mode upsert, vous mettrez à jour tous les documents dont le nom commence par un z ou un Z en leur affectant comme nom « Pub Z », comme valeur du champ capacite 50 personnes (type entier et non décimal) et en positionnant le champ booléen smac à la valeur « false ».
 
-Exercice 21
+# Exercice 21
 
 Affichez le décompte des documents pour lesquels le champ _id est de type « objectId ».
 
