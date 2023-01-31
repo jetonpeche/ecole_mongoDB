@@ -66,7 +66,7 @@ db.salles.insertMany([
 ]) 
 ```
 
-$exists => permet de ne pas avoir d'erreur si le champs existe pas
+`$exists` => permet de ne pas avoir d'erreur si le champ n'existe pas
 
 # Exercice 1
 
@@ -209,9 +209,10 @@ Mettez à jour tous les documents de la collection salles en rajoutant 100 perso
 Ajoutez le style « jazz » à toutes les salles qui n’en programment pas.
 
 ``` JS
-    db.salles.updateMany({ "styles": { $exists: true }}, 
+    // $push => ajout dans le tableau
+    // $nin => la / les valeurs xxxx n'existe pas dans salles
+    db.salles.updateMany({ "styles": { $exists: true, $nin: ["jazz"] }}, 
     { 
-        "styles": { $nin: ["jazz"]},
         $push: { "styles": "jazz" }
     })
 ```
