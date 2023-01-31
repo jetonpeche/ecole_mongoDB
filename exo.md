@@ -297,18 +297,28 @@ Affichez le décompte des documents pour lesquels le champ _id est de type « ob
     db.salles.find({ "_id": { $type: "objectId" }})
 ```
 
-Exercice 22
+# Exercice 22
 
 Pour les documents dont le champ _id n’est pas de type « objectId », affichez le nom de la salle ayant la plus grande capacité. Pour y parvenir, vous effectuerez un tri dans l’ordre qui convient tout en limitant le nombre de documents affichés pour ne retourner que celui qui comporte la capacité maximale.
 
-Exercice 23
+``` JS
+    // _id => pas egal au type objectId
+    // limit() => prend une ligne (la premiere)
+    // sort() => -1 trie decroissant sur capacite
+    db.salles.find({ 
+        "_id": { $ne: { $type: "objectId" }}
+        }, 
+        { "nom": true, "_id": false }).sort({"capacite": -1}).limit(1)
+```
+
+# Exercice 23
 
 Remplacez, sur la base de la valeur de son champ _id, le document créé à l’exercice 20 par un document contenant seulement le nom préexistant et la capacité, que vous monterez à 60 personnes.
 
-Exercice 24
+# Exercice 24
 
 Effectuez la suppression d’un seul document avec les critères suivants : le champ _id est de type « objectId » et la capacité de la salle est inférieure ou égale à 60 personnes.
 
-Exercice 25
+# Exercice 25
 
 À l’aide de la méthode permettant de trouver un seul document et de le mettre à jour en même temps, réduisez de 15 personnes la capacité de la salle située à Nîmes.
