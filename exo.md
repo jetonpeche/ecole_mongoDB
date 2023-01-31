@@ -221,6 +221,15 @@ Ajoutez le style « jazz » à toutes les salles qui n’en programment pas.
 
 Retirez le style «funk» à toutes les salles dont l’identifiant n’est égal ni à 2, ni à 3.
 
+``` JS
+
+    // $pull => supprimer dans une liste (styles) la valeur choisi
+    db.salles.updateMany({ "styles": { $exists: true }, "_id": { $nin: [2, 3] }}, 
+    { 
+        $pull: { "styles": "funk" }
+    })
+```
+
 # Exercice 17
 
 Ajoutez un tableau composé des styles «techno» et « reggae » à la salle dont l’identifiant est 3.
