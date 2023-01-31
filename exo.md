@@ -234,6 +234,11 @@ Retirez le style «funk» à toutes les salles dont l’identifiant n’est éga
 
 Ajoutez un tableau composé des styles «techno» et « reggae » à la salle dont l’identifiant est 3.
 
+``` JS
+    // $set => ajout d'une nouvelle propriete type liste
+    db.salles.updateOne({ "_id": 3 }, { $set: { "nouveauStyles": ["techno", "reggae"] }});
+```
+
 Exercice 18
 
 Pour les salles dont le nom commence par la lettre P (majuscule ou minuscule), augmentez la capacité de 150 places et rajoutez un champ de type tableau nommé contact dans lequel se trouvera un document comportant un champ nommé telephone dont la valeur sera « 04 11 94 00 10 ».
