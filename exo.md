@@ -239,9 +239,24 @@ Ajoutez un tableau composé des styles «techno» et « reggae » à la salle do
     db.salles.updateOne({ "_id": 3 }, { $set: { "nouveauStyles": ["techno", "reggae"] }});
 ```
 
-Exercice 18
+# Exercice 18
 
 Pour les salles dont le nom commence par la lettre P (majuscule ou minuscule), augmentez la capacité de 150 places et rajoutez un champ de type tableau nommé contact dans lequel se trouvera un document comportant un champ nommé telephone dont la valeur sera « 04 11 94 00 10 ».
+
+``` JS
+    // $inc => addiction
+    // $set => ajout d'un nouveau champ type liste object
+    // NumberInt() => cast le chiffre en int
+    // regex => commence par p ou P
+    db.salles.updateMany({ "nom": { $exists: true, $regex: /^[Pp]/ } }, 
+    { 
+        $inc: { "capacite": NumberInt(+150) },
+        $set: { "contact": [{ 
+            "telephone": "04 11 94 00 10" 
+            }] 
+        }
+    })
+```
 
 Exercice 19
 
