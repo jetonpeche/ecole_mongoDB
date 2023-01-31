@@ -315,9 +315,23 @@ Pour les documents dont le champ _id n’est pas de type « objectId », affiche
 
 Remplacez, sur la base de la valeur de son champ _id, le document créé à l’exercice 20 par un document contenant seulement le nom préexistant et la capacité, que vous monterez à 60 personnes.
 
+``` JS
+// ????????????????????????????????????????????
+    db.salles.updateMany({  }, {})
+```
+
 # Exercice 24
 
 Effectuez la suppression d’un seul document avec les critères suivants : le champ _id est de type « objectId » et la capacité de la salle est inférieure ou égale à 60 personnes.
+
+``` JS
+    // $type => comparaison de type (type of)
+    // $lte => plus petit ou egal à
+    db.salles.deleteOne({ 
+        "_id": { $type: "objectId" }, 
+        "capacite": { $lte: 60 }
+        })
+```
 
 # Exercice 25
 
