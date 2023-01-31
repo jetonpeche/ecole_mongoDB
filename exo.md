@@ -286,6 +286,8 @@ En mode upsert, vous mettrez à jour tous les documents dont le nom commence par
         "capacite": NumberInt(50),
         "smac": false
         })
+    // declancher la mise a jour a la recuperation
+    bulk.execute();
 ```
 
 # Exercice 21
@@ -336,3 +338,16 @@ Effectuez la suppression d’un seul document avec les critères suivants : le c
 # Exercice 25
 
 À l’aide de la méthode permettant de trouver un seul document et de le mettre à jour en même temps, réduisez de 15 personnes la capacité de la salle située à Nîmes.
+
+``` JS
+    // find() => condition pour recuperer l'object
+    // updateOne() => les valeurs a modifier d'un object
+    // bulk => init une liste d'inscruction a executer
+    var bulk = db.salles.initializeUnorderedBulkOp();
+    bulk.find({ "adresse.ville": "Nîmes" }).upsert().updateOne({
+        // soustraire la capacité par 15
+        $inc: { "capacite": NumberInt(-15) }
+        })
+    // declancher la mise a jour a la recuperation
+    bulk.execute();
+```
