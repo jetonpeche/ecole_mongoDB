@@ -22,9 +22,6 @@ Que constatez-vous lors de la tentative d’insertion suivante, et quelle en est
             
                 properties: 
                 {
-                    // exo 2
-                    // double type
-                    //_id: { bsonType: "string | objectId" }
                     nom: { bsonType: "string" },
                     capacite: { bsonType: "int" },
 
@@ -53,6 +50,34 @@ Ajouter un champs code postal à vide ou avec un espace ou mettre un code postal
 
 Rajoutez à vos critères de validation existants un critère supplémentaire : le champ _id devra dorénavant être de type entier (int) ou ObjectId.
 
+``` JS
+    db.runCommand({
+        collMod: "salles",
+        validator: 
+        { 
+            $jsonSchema: 
+            {
+                bsonType: "object",
+                required: [ "nom", "capacite", "adresse.ville", "adresse.codePostal" ],
+            
+                properties: 
+                {
+                    // ajout types predefini
+                    _id: { bsonType: ["int", "objectId"] }
+                    nom: { bsonType: "string" },
+                    capacite: { bsonType: "int" },
+
+                    adresse: {
+                        ville:{ bsonType: "string" },
+                        codePostal:{ bsonType: "string" }
+                    }
+                }
+            } 
+        },
+   validationLevel: "strict"
+})
+```
+
 Que se passe-t-il si vous tentez de mettre à jour l’ensemble des documents existants dans la collection à l’aide de la requête suivante :
 
 ``` JS
@@ -61,10 +86,36 @@ db.salles.updateMany({}, {$set: {"verifie": true}})
 
 Supprimez les critères rajoutés à l’aide de la méthode delete en JavaScript
 
-
-Exercice 3
+# Exercice 3
 
 Rajoutez aux critères de validation existants le critère suivant :
+
+``` JS
+    db.runCommand({
+        collMod: "salles",
+        validator: 
+        { 
+            $jsonSchema: 
+            {
+                bsonType: "object",
+                required: [ "smac", "nom", "capacite", "adresse.ville", "adresse.codePostal" ],
+            
+                properties: 
+                {
+                    _id: { bsonType: ["string", "objectId"] }
+                    nom: { bsonType: "string" },
+                    capacite: { bsonType: "int" },
+                    smac: { enum: ["jazz", "soul", "funk", "blues"] },
+                    adresse: {
+                        ville:{ bsonType: "string" },
+                        codePostal:{ bsonType: "string" }
+                    }
+                }
+            } 
+        },
+   validationLevel: "strict"
+})
+```
 
 Le champ smac doit être présent OU les styles musicaux doivent figurer parmi les suivants : "jazz", "soul", "funk" et "blues".
 

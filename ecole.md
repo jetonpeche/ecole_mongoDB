@@ -324,14 +324,6 @@ mettre des champs required ou valeur predefini ou type
 pas de trie au retour
 pas obliger de faire des indexs
 
-``` JS
-    {
-        $geoWithin: {
-
-        }
-    }
-```
-
 creation de polygon
 
 ``` JS
