@@ -24,7 +24,7 @@ Que constatez-vous lors de la tentative d’insertion suivante, et quelle en est
                 {
                     // exo 2
                     // double type
-                    _id: { bsonType: "string | objectId" }
+                    //_id: { bsonType: "string | objectId" }
                     nom: { bsonType: "string" },
                     capacite: { bsonType: "int" },
 

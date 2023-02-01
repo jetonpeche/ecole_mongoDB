@@ -316,3 +316,75 @@ mettre des champs required ou valeur predefini ou type
    validationLevel: "strict"
 })
 ```
+
+# Geo
+
+## $geoWthin
+
+pas de trie au retour
+pas obliger de faire des indexs
+
+``` JS
+    {
+        $geoWithin: {
+
+        }
+    }
+```
+
+creation de polygon
+
+``` JS
+    // defnition du perimetre de recherche
+    var polygon = 
+    [
+        [43.9548, 4.80143],
+        [43.95475, 4.80779],
+        [43.95045, 4.81097],
+        [43.4657, 4.80449],
+    ]
+
+    db.avignon2d.find({
+        "localisation": {
+            $geoWithin: {
+                $polygon: polygon
+            }
+        }
+    },
+    { "_id": false, "nom": true })
+    
+```
+
+signature cas utilisation object GeoJSON
+
+``` JS
+    {
+        $geoWithin:{
+            type: "polygon ou multiPolygon"
+            coordonates: [x, y]
+        }
+    }
+
+    var polygon = 
+    [
+        [43.9548, 4.80143],
+        [43.95475, 4.80779],
+        [43.95045, 4.81097],
+        [43.4657, 4.80449],
+
+        // boucler la boucle
+        [43.9548, 4.80143],
+    ]
+
+    db.avignon.find({
+        "localisation":{
+            $geoWithin:{
+                    $geometry:{
+                    type: "Polygon",
+                    coordonates: [polygon]
+                }
+            }
+        }
+
+    }, { "_id": false, "nom": true })
+```
