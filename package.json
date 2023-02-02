@@ -1,0 +1,22 @@
+{
+  "name": "ecole_mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jetonpeche/ecole_mongoDB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jetonpeche/ecole_mongoDB/issues"
+  },
+  "homepage": "https://github.com/jetonpeche/ecole_mongoDB#readme",
+  "dependencies": {
+    "mongodb": "^5.0.0"
+  }
+}

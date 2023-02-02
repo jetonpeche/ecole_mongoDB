@@ -380,3 +380,71 @@ signature cas utilisation object GeoJSON
 
     }, { "_id": false, "nom": true })
 ```
+
+# pipeline agregation
+
+puissant outil d'analyse et traitement
+comme un tapis roulant d'usine
+
+``` JS
+    // pipeline => tableau etape
+    // option =>ref a un document
+    db.uneCollection.aggregate(pipeline, option)
+```
+
+Parmis les options il y a
+- collation = permet d'ffectuer des collation a l'operateur
+- bypassDocumentValidation = marche avec $out => permet de passer outre la validation d'un document
+- allowDiskUse = possible de faire deborder les operations derciture sur le disque
+
+``` JS
+    var pipeline = []
+
+    db.uneCollection.aggregate(
+        pipeline,
+        {
+            "collation": { "local": "fr" }
+        }
+    )
+```
+
+## filtre $match
+
+performant, temps execution courts.
+`$match` doit etre le plus en amont possible
+il agit comme un filtre en reduisant le nobre de document
+
+``` JS
+    { $match: { requete }}
+```
+
+``` JS
+    // prepare le jeu de donnée en le filtrant
+    var pipeline = [{
+        $match: { "interets": "jardinage" },
+        $match: { "nom": /^L/, "age": { $gt: 70 }}
+    }]
+
+    db.uneCollection.aggregate(pipeline, {  })
+```
+
+## selection / modifier des champs: $project
+
+``` JS
+    // prepare le jeu de donnée en le filtrant
+    var pipeline = [{
+        $match: { "interets": "jardinage" },
+        $match: { "nom": /^L/, "age": { $gt: 70 }}
+    },
+    {
+        // choisi les champs a prendre pour afficher
+        // peut aussi creer des nouveaux champs
+        $project: { "nom": true, "ville": "$adresse.ville" , "nouveauChamp": { $gte: ["$age", 70] }}
+    },
+    {
+        // change la valeur du champ
+        $match: { "nouveauChamp": true, "ville": { exists: true }}
+    }]
+
+    db.uneCollection.aggregate(pipeline)
+```
