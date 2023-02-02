@@ -17,10 +17,15 @@ async function Connexion()
     console.log("bdd => ", db.namespace);
     console.log("collection => ", collection.namespace);
 
-    // CreerIndexHeureOuverture()
+    // ReStruturerCoordonneesJSON();
+    // AjouterChampHeureOuverture();
+    // CreerIndexHeureOuverture();
+
     //ListerRestaurantOuvertPartirDe(18);
     //ListerRestaurantParNoteCroissante();
-    //AjouterChampHeureOuverture();
+    
+    // coordonnée resto => le Neuvième Art
+    ListerRestaurantApartirCoordonnees(45.76849365234375, 4.85646390914917, 2);
 }
 
 /**
@@ -51,7 +56,31 @@ async function AjouterChampHeureOuverture()
         await collection.updateOne({ _id: element._id }, { $set:{ openHour: nb }});
     }
 
-    console.log("OK");
+    console.log("Ajout champ heure ouverture: OK");
+}
+
+/**
+ * Creer un object pour les coordonnées et supprimer lat et lng pour tout les documents
+ * @returns void
+ */
+async function ReStruturerCoordonneesJSON()
+{
+    const retour = await collection
+        .find()
+        .project({ _id: true, lat: true, lng: true });
+
+    // creer un obj localisation 
+    for (const element of await retour.toArray()) 
+    {
+        await collection.updateOne(
+            { _id: element._id }, 
+            { $set: { localisation: { type:"Point", coordonnees: [element.lat, element.lng] }}});
+    }
+
+    // supp les clé lat et lng des documments
+    await collection.updateMany({}, { $unset: { lat:"", lng:"" }})
+
+    console.log("Restructurer coordonnées: OK");
 }
 
 /**
@@ -93,6 +122,27 @@ async function ListerRestaurantParNoteCroissante(_noteMin = 0)
         .sort({ overallRating: -1 })
         .project({ overallRating: true, restaurant_name: true, _id: false });
     
+    console.log(await retour.toArray());
+}
+
+async function ListerRestaurantApartirCoordonnees(_lattitude, _longitude, _distanceKm)
+{
+    const RAYON_TERRE_EQUATORIAL_KM = 6378.1;
+
+    if(_distanceKm <= 0)
+    {
+        console.log([]);
+        return;
+    }
+
+    const retour = await collection.find({ 
+        "localisation.coordonnees":
+        {
+            $geoWithin: { 
+            $centerSphere: [[_lattitude, _longitude], (_distanceKm / RAYON_TERRE_EQUATORIAL_KM) ] 
+        }
+    }}).project({ restaurant_name: true })
+
     console.log(await retour.toArray());
 }
 
