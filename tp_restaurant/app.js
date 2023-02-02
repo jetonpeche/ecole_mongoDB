@@ -19,7 +19,7 @@ async function Connexion()
     console.log("bdd => ", db.namespace);
     console.log("collection => ", collection.namespace);
 
-    // Init();
+    Init();
 
     // ListerRestaurantOuvertPartirDeAsync(18);
     // ListerRestaurantParNoteCroissanteAsync();
@@ -143,9 +143,9 @@ Connexion().finally(() => client.close);
 
 function Init()
 {
-    CreerIndexHeureOuverture();
-    AjouterChampHeureOuverture();
-    ReStruturerCoordonneesJSON();
+    CreerIndexHeureOuvertureAsync();
+    AjouterChampHeureOuvertureAsync();
+    ReStruturerCoordonneesJSONAsync();
 }
 
 /**
